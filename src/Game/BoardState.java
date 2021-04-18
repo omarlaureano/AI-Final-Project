@@ -79,6 +79,8 @@ public class BoardState {
 				this.comboPiece = comboPiece;
 				canEat = true;
 			}
+		} else {
+			canEat = canEat();
 		}
 
 		//check for new kings when turn is done
@@ -354,7 +356,7 @@ public class BoardState {
 
 	public BoardState movePieceDownRight(int i){
 		//check invalid spots, right/bottom border
-		if (canEat || i <= 3 || i == 11 || i == 19 || i == 27 || i > 31 || comboPiece != 1) {
+		if (canEat || i <= 3 || i == 11 || i == 19 || i == 27 || i > 31 || comboPiece != -1) {
 			return null;
 		}
 
@@ -625,6 +627,67 @@ public class BoardState {
 		}
 		return list;
 	}
+	
+	public ArrayList<Integer> whiteKings() {
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		for (int i = 0; i < board.size(); i++) {
+			if (board.get(i) == WHITEKING) {
+				list.add(i);
+			}
+		}
+		return list;
+	}
+
+	public ArrayList<Integer> blackKings() {
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		for (int i = 0; i < board.size(); i++) {
+			if (board.get(i) == BLACKKING) {
+				list.add(i);
+			}
+		}
+		return list;
+	}
+	
+	//border pieces are considered safe, smart to have as many borders as possible
+	public ArrayList<Integer> safeWhite() {
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		for (int i = 0; i <= 4; i++) {
+			if (board.get(i) == WHITE) {
+				list.add(i);
+			}
+		}
+		if (getPiece(11) == WHITE)
+			list.add(11);
+		if (getPiece(12) == WHITE)
+			list.add(12);
+		if (getPiece(19) == WHITE)
+			list.add(19);
+		if (getPiece(20) == WHITE)
+			list.add(20);
+		if (getPiece(27) == WHITE)
+			list.add(27);	
+		return list;
+	}
+	
+	public ArrayList<Integer> safeBlack() {
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		if (getPiece(4) == BLACK)
+			list.add(4);
+		if (getPiece(11) == BLACK)
+			list.add(11);
+		if (getPiece(12) == BLACK)
+			list.add(12);
+		if (getPiece(19) == BLACK)
+			list.add(19);
+		if (getPiece(20) == BLACK)
+			list.add(20);
+		for (int i = 27; i <= 31; i++) {
+			if (board.get(i) == BLACK) {
+				list.add(i);
+			}
+		}
+		return list;
+	}
 
 	/**
 	 * Potential moves for given tile. To be used with piece lists (blackList, whiteList)
@@ -682,6 +745,32 @@ public class BoardState {
 		return potentialEats(getTile(x, y));
 	}
 
+	public ArrayList<BoardState> getMoves(){
+		ArrayList<BoardState> moves = new ArrayList<BoardState>();
+		
+		if (canEat) {
+			if (isWhiteTurn) {
+				for (int piece:whiteList()) {
+					moves.addAll(potentialEats(piece));
+				}
+			} else {
+				for (int piece:blackList()) {
+					moves.addAll(potentialEats(piece));
+				}
+			}
+		} else {
+			if (isWhiteTurn) {
+				for (int piece:whiteList()) {
+					moves.addAll(potentialMoves(piece));
+				}
+			} else {
+				for (int piece:blackList()) {
+					moves.addAll(potentialMoves(piece));
+				}
+			}
+		}
+		return moves;
+	}
 
 	/**
 	 * Force player to eat by checking for potential eats for all player's pieces.
@@ -703,7 +792,35 @@ public class BoardState {
 			return false; // no moves found
 		}
 	}
+	public boolean canMove() {
+		if (canEat) {
+			return false;
+		}
+		if (isWhiteTurn) {
+			for (int piece: whiteList()) {
+				if (potentialMoves(piece).size() > 0) // found at least one eat move
+					return true;
+			}
+			return false; // no eat moves found
+		}else {//black turn
+			for (int piece: blackList()) {
+				if (potentialMoves(piece).size() > 0)
+					return true;
+			}
+			return false; // no moves found
+		}
+	}
 
+	public boolean whiteWin() {
+		return blackList().size() <= 0 || (!isWhiteTurn && !canEat && !canMove());
+	}
+	public boolean blackWin() {
+		return whiteList().size() <= 0 || (isWhiteTurn && !canEat && !canMove());
+	}
+	public boolean gameOver() {
+		return whiteWin() || blackWin();
+	}
+	
 	public void printBoard() {
 		System.out.println();
 		if (this != null) {
