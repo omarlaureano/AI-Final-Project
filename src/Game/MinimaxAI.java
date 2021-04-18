@@ -3,18 +3,16 @@ package Game;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class AI {
+public class MinimaxAI {
 
 	int depth;
 
-	public AI (int depth){
+	public MinimaxAI (int depth){
 		this.depth = depth;
 	}
-	public AI (){// default depth of turns
+	public MinimaxAI (){// default depth of turns
 		this(4);
 	}
-
-	
 
 	public BoardState minimaxPlay(BoardState board) {
 		ArrayList<BoardState> moveList = board.getMoves();
@@ -49,6 +47,7 @@ public class AI {
 	/**
 	 * Return a list of plays in children of board that contain maximum value.
 	 * Used with randomizer in minimaxPlay
+	 *  Uses minimax algorithm
 	 * @param board
 	 * @param turn
 	 * @return
@@ -62,7 +61,7 @@ public class AI {
 		}
 
 		else {
-			int v = -200;
+			int v = -400;
 			for (BoardState successor: board.getMoves()) {
 				int successorUtil = Utility.utility(minValuePlay(successor, turn+1).get(0));
 				if (successorUtil > v) {//new v to beat, clear list
@@ -78,6 +77,14 @@ public class AI {
 		return res;
 	}
 
+	/**
+	 * Return a list of plays in children of board that contain minimum value.
+	 * Used with randomizer in minimaxPlay
+	 * Uses minimax algorithm
+	 * @param board
+	 * @param turn
+	 * @return
+	 */
 	public ArrayList<BoardState> minValuePlay(BoardState board, int turn) {
 		ArrayList<BoardState> res = new ArrayList<BoardState>();
 
@@ -87,7 +94,7 @@ public class AI {
 		}
 
 		else {
-			int v = 200;
+			int v = 400;
 			for (BoardState successor: board.getMoves()) {
 				int successorUtil = Utility.utility(maxValuePlay(successor, turn+1).get(0));
 				if (successorUtil < v) { //new v to beat, clear list

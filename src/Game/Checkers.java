@@ -9,8 +9,10 @@ public class Checkers {
 	public static void main(String[] args) throws InterruptedException {
 		// TODO Auto-generated method stub
 		BoardState board = new BoardState();
-		AI blackPlayer = new AI(6);
-		AI whitePlayer = new AI(6);
+		MinimaxAI blackPlayer = new MinimaxAI(6);
+		MinimaxAI whitePlayer = new MinimaxAI(6);
+		AlphaBetaAI abBlackPlayer = new AlphaBetaAI(8);
+		AlphaBetaAI abWhitePlayer = new AlphaBetaAI(8);
 		Scanner sc = new Scanner(System.in);
 		int input = -1;
 		
@@ -26,9 +28,9 @@ public class Checkers {
 		while (!board.gameOver()) {
 			if (board != null) {
 				if (board.isWhiteTurn) {
-					board = whitePlayer.minimaxPlay(board);
+					board = abWhitePlayer.alphaBetaPlay(board);
 				}else {
-					board = blackPlayer.minimaxPlay(board);
+					board = abBlackPlayer.alphaBetaPlay(board);
 				}
 				board.printBoard();
 				System.out.println(board.whiteList().toString());
