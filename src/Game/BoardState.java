@@ -33,6 +33,12 @@ public class BoardState {
 
 	//keeps track of a piece that just ate to check for multi jumps, -1 means no combo in the current board
 	int comboPiece;
+	
+	/*
+	 * keeps track of the number of moves since the last time a piece was eaten. If it reaches 80 we declare
+	 * a draw
+ 	*/
+	int playsSinceLastEat;
 
 	public BoardState() {
 		board = new ArrayList<Integer>(32);
@@ -61,10 +67,11 @@ public class BoardState {
 		comboPiece = -1;
 	}
 
-	public BoardState(ArrayList<Integer> board, boolean isWhiteTurn, int comboPiece) {
+	public BoardState(ArrayList<Integer> board, boolean isWhiteTurn, int comboPiece, int playsSinceLastEat) {
 		this.board = board;
 		this.comboPiece = comboPiece;
 		this.isWhiteTurn = isWhiteTurn;
+		this.playsSinceLastEat = playsSinceLastEat;
 
 		//check comboPiece for more eats
 		if (comboPiece != -1) {
@@ -120,6 +127,7 @@ public class BoardState {
 		isWhiteTurn = true;
 		comboPiece = -1;
 		canEat = false;
+		playsSinceLastEat = 0;
 	}
 
 	public void setTileToWhite(int i) {
@@ -258,7 +266,7 @@ public class BoardState {
 					res.addAll(board);
 					res.set(i, EMPTY);
 					res.set(i+4, piece);
-					return new BoardState(res, !isWhiteTurn, -1);
+					return new BoardState(res, !isWhiteTurn, -1, playsSinceLastEat+1);
 				}
 			}
 			else {//odd rows, add 3 to i
@@ -267,7 +275,7 @@ public class BoardState {
 					res.addAll(board);
 					res.set(i, EMPTY);
 					res.set(i+3, piece);
-					return new BoardState(res, !isWhiteTurn, -1);
+					return new BoardState(res, !isWhiteTurn, -1, playsSinceLastEat +1);
 				}
 			}
 		}
@@ -296,7 +304,7 @@ public class BoardState {
 					res.addAll(board);
 					res.set(i, EMPTY);
 					res.set(i+5, piece);
-					return new BoardState(res, !isWhiteTurn, -1);
+					return new BoardState(res, !isWhiteTurn, -1, playsSinceLastEat+1);
 				}
 			}
 			else {//odd rows, add 4 to i
@@ -305,7 +313,7 @@ public class BoardState {
 					res.addAll(board);
 					res.set(i, EMPTY);
 					res.set(i+4, piece);
-					return new BoardState(res, !isWhiteTurn, -1);
+					return new BoardState(res, !isWhiteTurn, -1, playsSinceLastEat+1);
 				}
 			}
 		}
@@ -333,7 +341,7 @@ public class BoardState {
 					res.addAll(board);
 					res.set(i, EMPTY);
 					res.set(i-4, piece);
-					return new BoardState(res, !isWhiteTurn, -1);
+					return new BoardState(res, !isWhiteTurn, -1, playsSinceLastEat+1);
 				}
 			}
 			else {//odd rows, substract 5 to i
@@ -342,7 +350,7 @@ public class BoardState {
 					res.addAll(board);
 					res.set(i, EMPTY);
 					res.set(i-5, piece);
-					return new BoardState(res, !isWhiteTurn, -1);
+					return new BoardState(res, !isWhiteTurn, -1, playsSinceLastEat+1);
 				}
 			}
 		}
@@ -371,7 +379,7 @@ public class BoardState {
 					res.addAll(board);
 					res.set(i, EMPTY);
 					res.set(i-3, piece);
-					return new BoardState(res, !isWhiteTurn, -1);
+					return new BoardState(res, !isWhiteTurn, -1, playsSinceLastEat+1);
 				}
 			}
 			else {//odd rows, subtract 4 to i
@@ -380,7 +388,7 @@ public class BoardState {
 					res.addAll(board);
 					res.set(i, EMPTY);
 					res.set(i-4, piece);
-					return new BoardState(res, !isWhiteTurn, -1);
+					return new BoardState(res, !isWhiteTurn, -1, playsSinceLastEat+1);
 				}
 			}
 		}
@@ -424,7 +432,7 @@ public class BoardState {
 				res.set(i, EMPTY);
 				res.set(i+4, EMPTY);//middleman
 				res.set(i+7, piece);//destination
-				return new BoardState(res, isWhiteTurn, i+7);
+				return new BoardState(res, isWhiteTurn, i+7, 0);
 			}
 		}
 		else {//odd rows, add 3 to i to find middle spot
@@ -439,7 +447,7 @@ public class BoardState {
 				res.set(i, EMPTY);
 				res.set(i+3, EMPTY);//middleman
 				res.set(i+7, piece);//destination
-				return new BoardState(res, isWhiteTurn, i+7);
+				return new BoardState(res, isWhiteTurn, i+7, 0);
 			}
 		}
 
@@ -477,7 +485,7 @@ public class BoardState {
 				res.set(i, EMPTY);
 				res.set(i+5, EMPTY);//middleman
 				res.set(i+9, piece);//destination
-				return new BoardState(res, isWhiteTurn, i+9);
+				return new BoardState(res, isWhiteTurn, i+9, 0);
 			}
 		}
 		else {//odd rows, add 4 to i to find middle spot
@@ -492,7 +500,7 @@ public class BoardState {
 				res.set(i, EMPTY);
 				res.set(i+4, EMPTY);//middleman
 				res.set(i+9, piece);//destination
-				return new BoardState(res, isWhiteTurn, i+9);
+				return new BoardState(res, isWhiteTurn, i+9, 0);
 			}
 		}
 
@@ -530,7 +538,7 @@ public class BoardState {
 				res.set(i, EMPTY);
 				res.set(i-4, EMPTY);//middleman
 				res.set(i-9, piece);//destination
-				return new BoardState(res, isWhiteTurn, i-9);
+				return new BoardState(res, isWhiteTurn, i-9, 0);
 			}
 		}
 		else {//odd rows, subtract 5 to i to find middle spot
@@ -545,7 +553,7 @@ public class BoardState {
 				res.set(i, EMPTY);
 				res.set(i-5, EMPTY);//middleman
 				res.set(i-9, piece);//destination
-				return new BoardState(res, isWhiteTurn, i-9);
+				return new BoardState(res, isWhiteTurn, i-9, 0);
 			}
 		}
 
@@ -582,7 +590,7 @@ public class BoardState {
 				res.set(i, EMPTY);
 				res.set(i-3, EMPTY);//middleman
 				res.set(i-7, piece);//destination
-				return new BoardState(res, isWhiteTurn, i-7);
+				return new BoardState(res, isWhiteTurn, i-7, 0);
 			}
 		}
 		else {//odd rows, subtract 4 to i to find middle spot
@@ -597,7 +605,7 @@ public class BoardState {
 				res.set(i, EMPTY);
 				res.set(i-4, EMPTY);//middleman
 				res.set(i-7, piece);//destination
-				return new BoardState(res, isWhiteTurn, i-7);
+				return new BoardState(res, isWhiteTurn, i-7, 0);
 			}
 		}
 
@@ -852,8 +860,11 @@ public class BoardState {
 	public boolean blackWin() {
 		return whiteList().size() <= 0 || (isWhiteTurn && !canEat && !canMove());
 	}
+	public boolean draw() {
+		return playsSinceLastEat >= 50;
+	}
 	public boolean gameOver() {
-		return whiteWin() || blackWin();
+		return whiteWin() || blackWin() || draw();
 	}
 	
 	public void printBoard() {
@@ -882,6 +893,7 @@ public class BoardState {
 			}
 			System.out.println("Combo Piece: " + comboPiece);
 			System.out.println("Can Eat: " + canEat);
+			System.out.println("Since Last Eat: " + playsSinceLastEat);
 			System.out.println();
 		} 
 
