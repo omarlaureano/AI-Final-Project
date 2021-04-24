@@ -688,6 +688,41 @@ public class BoardState {
 		}
 		return list;
 	}
+	
+	//kings can trap border kings by standing opposite to them, guarding their exits
+		public ArrayList<Integer> whiteGuard() {
+			ArrayList<Integer> list = new ArrayList<Integer>();
+			if (getPiece(13) == WHITEKING && getPiece(12) == BLACKKING)
+				list.add(13);
+			if (getPiece(21) == WHITEKING && (getPiece(20) == BLACKKING || getPiece(29) == BLACKKING || getPiece(28) == BLACKKING))
+				list.add(21);
+			if (getPiece(22) == WHITEKING && getPiece(30) == BLACKKING)
+				list.add(22);
+			if (getPiece(18) == WHITEKING && getPiece(19) == BLACKKING)
+				list.add(18);
+			if (getPiece(10) == WHITEKING && (getPiece(11) == BLACKKING || getPiece(2) == BLACKKING || getPiece(3) == BLACKKING))
+				list.add(10);
+			if (getPiece(9) == WHITEKING && getPiece(1) == BLACKKING)
+				list.add(9);
+			return list;
+		}
+		
+		public ArrayList<Integer> blackGuard() {
+			ArrayList<Integer> list = new ArrayList<Integer>();
+			if (getPiece(13) == BLACKKING && getPiece(12) == WHITEKING)
+				list.add(13);
+			if (getPiece(21) == BLACKKING && (getPiece(20) == WHITEKING || getPiece(29) == WHITEKING || getPiece(28) == WHITEKING))
+				list.add(21);
+			if (getPiece(22) == BLACKKING && getPiece(30) == WHITEKING)
+				list.add(22);
+			if (getPiece(18) == BLACKKING && getPiece(19) == WHITEKING)
+				list.add(18);
+			if (getPiece(10) == BLACKKING && (getPiece(11) == WHITEKING || getPiece(2) == WHITEKING || getPiece(3) == WHITEKING))
+				list.add(10);
+			if (getPiece(9) == BLACKKING && getPiece(1) == WHITEKING)
+				list.add(9);
+			return list;
+		}
 
 	/**
 	 * Potential moves for given tile. To be used with piece lists (blackList, whiteList)
