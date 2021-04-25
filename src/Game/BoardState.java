@@ -636,6 +636,10 @@ public class BoardState {
 		return list;
 	}
 	
+	public int size() {
+		return whiteList().size() + blackList().size();
+	}
+	
 	public ArrayList<Integer> whiteKings() {
 		ArrayList<Integer> list = new ArrayList<Integer>();
 		for (int i = 0; i < board.size(); i++) {
@@ -861,7 +865,7 @@ public class BoardState {
 		return whiteList().size() <= 0 || (isWhiteTurn && !canEat && !canMove());
 	}
 	public boolean draw() {
-		return playsSinceLastEat >= 50;
+		return playsSinceLastEat >= 75;
 	}
 	public boolean gameOver() {
 		return whiteWin() || blackWin() || draw();
