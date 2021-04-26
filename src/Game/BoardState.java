@@ -92,12 +92,12 @@ public class BoardState {
 
 		//check for new kings when turn is done
 		for (int i = 0; i <= 3; i++) {
-			if (board.get(i) == BLACK) {
+			if (getPiece(i) == BLACK) {
 				board.set(i, BLACKKING);
 			}
 		}
 		for (int i = 28; i <= 31; i++) {
-			if (board.get(i) == WHITE) {
+			if (getPiece(i) == WHITE) {
 				board.set(i, WHITEKING);
 			}
 		}
@@ -255,12 +255,12 @@ public class BoardState {
 			return null;
 		}
 
-		int piece = board.get(i);
+		int piece = getPiece(i);
 		//check whose turn and if space has moveable piece for given player
 		if ((isWhiteTurn && (piece == WHITE || piece == WHITEKING)) 
 				|| (!isWhiteTurn && piece == BLACKKING)) {
 			if ((i/4) % 2 == 0) {//even rows, add 4 to i
-				if(board.get(i+4) == EMPTY) {//destination must be empty to move there
+				if(getPiece(i+4) == EMPTY) {//destination must be empty to move there
 					//create new boardstate with moved piece
 					ArrayList<Integer> res = new ArrayList<Integer>();
 					res.addAll(board);
@@ -270,7 +270,7 @@ public class BoardState {
 				}
 			}
 			else {//odd rows, add 3 to i
-				if(board.get(i+3) == EMPTY) {
+				if(getPiece(i+3) == EMPTY) {
 					ArrayList<Integer> res = new ArrayList<Integer>();
 					res.addAll(board);
 					res.set(i, EMPTY);
@@ -293,12 +293,12 @@ public class BoardState {
 			return null;
 		}
 
-		int piece = board.get(i);
+		int piece = getPiece(i);
 		//check whose turn and if space has moveable piece for given player
 		if ((isWhiteTurn && (piece == WHITE || piece == WHITEKING)) 
 				|| (!isWhiteTurn && piece == BLACKKING)) {
 			if ((i/4) % 2 == 0) {//even rows, add 5 to i
-				if(board.get(i+5) == EMPTY) {//destination must be empty to move there
+				if(getPiece(i+5) == EMPTY) {//destination must be empty to move there
 					//create new boardstate with moved piece
 					ArrayList<Integer> res = new ArrayList<Integer>();
 					res.addAll(board);
@@ -308,7 +308,7 @@ public class BoardState {
 				}
 			}
 			else {//odd rows, add 4 to i
-				if(board.get(i+4) == EMPTY) {
+				if(getPiece(i+4) == EMPTY) {
 					ArrayList<Integer> res = new ArrayList<Integer>();
 					res.addAll(board);
 					res.set(i, EMPTY);
@@ -330,12 +330,12 @@ public class BoardState {
 			return null;
 		}
 
-		int piece = board.get(i);
+		int piece = getPiece(i);
 		//check whose turn and if space has moveable piece for given player
 		if ((isWhiteTurn && piece == WHITEKING) 
 				|| (!isWhiteTurn && (piece == BLACK || piece == BLACKKING))) {
 			if ((i/4) % 2 == 0) {//even rows, subtract 4 to i
-				if(board.get(i-4) == EMPTY) {//destination must be empty to move there
+				if(getPiece(i-4) == EMPTY) {//destination must be empty to move there
 					//create new boardstate with moved piece
 					ArrayList<Integer> res = new ArrayList<Integer>();
 					res.addAll(board);
@@ -345,7 +345,7 @@ public class BoardState {
 				}
 			}
 			else {//odd rows, substract 5 to i
-				if(board.get(i-5) == EMPTY) {
+				if(getPiece(i-5) == EMPTY) {
 					ArrayList<Integer> res = new ArrayList<Integer>();
 					res.addAll(board);
 					res.set(i, EMPTY);
@@ -368,12 +368,12 @@ public class BoardState {
 			return null;
 		}
 
-		int piece = board.get(i);
+		int piece = getPiece(i);
 		//check whose turn and if space has moveable piece for given player
 		if ((isWhiteTurn && piece == WHITEKING) 
 				|| (!isWhiteTurn && (piece == BLACK || piece == BLACKKING))) {
 			if ((i/4) % 2 == 0) {//even rows, subtract 3 to i
-				if(board.get(i-3) == EMPTY) {//destination must be empty to move there
+				if(getPiece(i-3) == EMPTY) {//destination must be empty to move there
 					//create new boardstate with moved piece
 					ArrayList<Integer> res = new ArrayList<Integer>();
 					res.addAll(board);
@@ -383,7 +383,7 @@ public class BoardState {
 				}
 			}
 			else {//odd rows, subtract 4 to i
-				if(board.get(i-4) == EMPTY) {
+				if(getPiece(i-4) == EMPTY) {
 					ArrayList<Integer> res = new ArrayList<Integer>();
 					res.addAll(board);
 					res.set(i, EMPTY);
@@ -412,16 +412,16 @@ public class BoardState {
 			return null;
 		}
 
-		if (board.get(i+7) != EMPTY) { // destination is i + 7, check first
+		if (getPiece(i+7) != EMPTY) { // destination is i + 7, check first
 			return null;
 		}
 
-		int piece = board.get(i);
+		int piece = getPiece(i);
 
 		//check whose turn and if space has moveable piece for given player
 
 		if ((i/4) % 2 == 0) {//even rows, add 4 to i to find middle spot
-			int middleman = board.get(i+4);
+			int middleman = getPiece(i+4);
 			if( ((isWhiteTurn && (piece == WHITE || piece == WHITEKING)) 
 					&& (middleman == BLACK || middleman == BLACKKING)) // check if white piece with black middleman
 					|| ((!isWhiteTurn && piece == BLACKKING) 
@@ -436,7 +436,7 @@ public class BoardState {
 			}
 		}
 		else {//odd rows, add 3 to i to find middle spot
-			int middleman = board.get(i+3);
+			int middleman = getPiece(i+3);
 			if( ((isWhiteTurn && (piece == WHITE || piece == WHITEKING))
 					&& (middleman == BLACK || middleman == BLACKKING)) // check if white piece with black middleman
 					|| ((!isWhiteTurn && piece == BLACKKING) 
@@ -465,16 +465,16 @@ public class BoardState {
 			return null;
 		}
 
-		if (board.get(i+9) != EMPTY) { // destination is i + 9, check first
+		if (getPiece(i+9) != EMPTY) { // destination is i + 9, check first
 			return null;
 		}
 
-		int piece = board.get(i);
+		int piece = getPiece(i);
 
 		//check whose turn and if space has moveable piece for given player
 
 		if ((i/4) % 2 == 0) {//even rows, add 5 to i to find middle spot
-			int middleman = board.get(i+5);
+			int middleman = getPiece(i+5);
 			if( ((isWhiteTurn && (piece == WHITE || piece == WHITEKING)) 
 					&& (middleman == BLACK || middleman == BLACKKING)) // check if white piece with black middleman
 					|| ((!isWhiteTurn && piece == BLACKKING) 
@@ -489,7 +489,7 @@ public class BoardState {
 			}
 		}
 		else {//odd rows, add 4 to i to find middle spot
-			int middleman = board.get(i+4);
+			int middleman = getPiece(i+4);
 			if( ((isWhiteTurn && (piece == WHITE || piece == WHITEKING))
 					&& (middleman == BLACK || middleman == BLACKKING)) // check if white piece with black middleman
 					|| ((!isWhiteTurn && piece == BLACKKING) 
@@ -518,16 +518,16 @@ public class BoardState {
 			return null;
 		}
 
-		if (board.get(i-9) != EMPTY) { // destination is i - 9, check first
+		if (getPiece(i-9) != EMPTY) { // destination is i - 9, check first
 			return null;
 		}
 
-		int piece = board.get(i);
+		int piece = getPiece(i);
 
 		//check whose turn and if space has moveable piece for given player
 
 		if ((i/4) % 2 == 0) {//even rows, subtract 4 to i to find middle spot
-			int middleman = board.get(i-4);
+			int middleman = getPiece(i-4);
 			if( ((isWhiteTurn && piece == WHITEKING) 
 					&& (middleman == BLACK || middleman == BLACKKING)) // check if white king with black middleman
 					|| ((!isWhiteTurn && (piece == BLACK || piece == BLACKKING)) 
@@ -542,7 +542,7 @@ public class BoardState {
 			}
 		}
 		else {//odd rows, subtract 5 to i to find middle spot
-			int middleman = board.get(i-5);
+			int middleman = getPiece(i-5);
 			if( ((isWhiteTurn && piece == WHITEKING) 
 					&& (middleman == BLACK || middleman == BLACKKING)) // check if white king with black middleman
 					|| ((!isWhiteTurn && (piece == BLACK || piece == BLACKKING)) 
@@ -571,15 +571,15 @@ public class BoardState {
 			return null;
 		}
 
-		if (board.get(i-7) != EMPTY) { // destination is i - 7, check first
+		if (getPiece(i-7) != EMPTY) { // destination is i - 7, check first
 			return null;
 		}
 
-		int piece = board.get(i);
+		int piece = getPiece(i);
 		//check whose turn and if space has moveable piece for given player
 
 		if ((i/4) % 2 == 0) {//even rows, subtract 3 to i to find middle spot
-			int middleman = board.get(i-3);
+			int middleman = getPiece(i-3);
 			if( ((isWhiteTurn && piece == WHITEKING) 
 					&& (middleman == BLACK || middleman == BLACKKING)) // check if white king with black middleman
 					|| ((!isWhiteTurn && (piece == BLACK || piece == BLACKKING)) 
@@ -594,7 +594,7 @@ public class BoardState {
 			}
 		}
 		else {//odd rows, subtract 4 to i to find middle spot
-			int middleman = board.get(i-4);
+			int middleman = getPiece(i-4);
 			if( ((isWhiteTurn && piece == WHITEKING) 
 					&& (middleman == BLACK || middleman == BLACKKING)) 
 					|| ((!isWhiteTurn && (piece == BLACK || piece == BLACKKING)) 
@@ -619,7 +619,7 @@ public class BoardState {
 	public ArrayList<Integer> whiteList() {
 		ArrayList<Integer> list = new ArrayList<Integer>();
 		for (int i = 0; i < board.size(); i++) {
-			if (board.get(i) == WHITE || board.get(i) == WHITEKING) {
+			if (getPiece(i) == WHITE || getPiece(i) == WHITEKING) {
 				list.add(i);
 			}
 		}
@@ -629,7 +629,7 @@ public class BoardState {
 	public ArrayList<Integer> blackList() {
 		ArrayList<Integer> list = new ArrayList<Integer>();
 		for (int i = 0; i < board.size(); i++) {
-			if (board.get(i) == BLACK || board.get(i) == BLACKKING) {
+			if (getPiece(i) == BLACK || getPiece(i) == BLACKKING) {
 				list.add(i);
 			}
 		}
@@ -643,7 +643,7 @@ public class BoardState {
 	public ArrayList<Integer> whiteKings() {
 		ArrayList<Integer> list = new ArrayList<Integer>();
 		for (int i = 0; i < board.size(); i++) {
-			if (board.get(i) == WHITEKING) {
+			if (getPiece(i) == WHITEKING) {
 				list.add(i);
 			}
 		}
@@ -653,7 +653,7 @@ public class BoardState {
 	public ArrayList<Integer> blackKings() {
 		ArrayList<Integer> list = new ArrayList<Integer>();
 		for (int i = 0; i < board.size(); i++) {
-			if (board.get(i) == BLACKKING) {
+			if (getPiece(i) == BLACKKING) {
 				list.add(i);
 			}
 		}
@@ -664,7 +664,7 @@ public class BoardState {
 	public ArrayList<Integer> safeWhite() {
 		ArrayList<Integer> list = new ArrayList<Integer>();
 		for (int i = 0; i <= 4; i++) {
-			if (board.get(i) == WHITE) {
+			if (getPiece(i) == WHITE) {
 				list.add(i);
 			}
 		}
@@ -694,7 +694,7 @@ public class BoardState {
 		if (getPiece(20) == BLACK)
 			list.add(20);
 		for (int i = 27; i <= 31; i++) {
-			if (board.get(i) == BLACK) {
+			if (getPiece(i) == BLACK) {
 				list.add(i);
 			}
 		}
@@ -897,7 +897,9 @@ public class BoardState {
 			}
 			System.out.println("Combo Piece: " + comboPiece);
 			System.out.println("Can Eat: " + canEat);
-			System.out.println("Since Last Eat: " + playsSinceLastEat);
+			System.out.println("Turns Since Last Eat: " + playsSinceLastEat);
+			System.out.println("White: " + whiteList().toString());
+			System.out.println("Black: " + blackList().toString());
 			System.out.println();
 		} 
 

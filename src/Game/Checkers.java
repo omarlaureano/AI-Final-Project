@@ -55,8 +55,7 @@ public class Checkers {
 						//board = minimaxBlackPlayer.minimaxPlay(board);
 					}
 					board.printBoard();
-					System.out.println(board.whiteList().toString());
-					System.out.println(board.blackList().toString());
+					
 					System.out.println();
 					TimeUnit.SECONDS.sleep((long) 0.5);
 				}
