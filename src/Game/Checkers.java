@@ -33,11 +33,11 @@ public class Checkers {
 		long start= System.currentTimeMillis();
 
 		BoardState board = new BoardState();
-		MinimaxAI minimaxBlackPlayer = new MinimaxAI(5);
+		MinimaxAI minimaxBlackPlayer = new MinimaxAI(4);
 		MinimaxAI minimaxWhitePlayer = new MinimaxAI(5);
-		AlphaBetaAI abBlackPlayer = new AlphaBetaAI(8);
-		AlphaBetaAI abWhitePlayer = new AlphaBetaAI(5);
-		while (game <=1) {
+		AlphaBetaAI abBlackPlayer = new AlphaBetaAI(6);
+		AlphaBetaAI abWhitePlayer = new AlphaBetaAI(7);
+		while (game <=30) {	
 			for (int y = 8; y > 0; y--) {
 				for (int x = 1; x <= 8; x++) {
 					System.out.print(board.getTile(x, y) + "\t");
@@ -48,8 +48,8 @@ public class Checkers {
 				if (board != null) {
 					System.out.println("Turn #" + turn++);
 					if (board.isWhiteTurn) {
-						board = abWhitePlayer.alphaBetaPlay(board);
-						//board = minimaxWhitePlayer.minimaxPlay(board);
+						//board = abWhitePlayer.alphaBetaPlay(board);
+						board = minimaxWhitePlayer.minimaxPlay(board);
 					}else {
 						board = abBlackPlayer.alphaBetaPlay(board);
 						//board = minimaxBlackPlayer.minimaxPlay(board);
@@ -58,7 +58,7 @@ public class Checkers {
 					System.out.println(board.whiteList().toString());
 					System.out.println(board.blackList().toString());
 					System.out.println();
-					TimeUnit.SECONDS.sleep((long) 1);
+					TimeUnit.SECONDS.sleep((long) 0.5);
 				}
 			}
 			if (board.whiteWin()) {
@@ -74,10 +74,9 @@ public class Checkers {
 				stalemates++;
 				currStalemate++;
 			}
-			break;
-
-			//board.reset();
-			//game++;
+			
+			board.reset();
+			game++;
 		}
 
 		long elapsed = System.currentTimeMillis() - start;

@@ -94,15 +94,14 @@ public class AlphaBetaAI {
 		else {
 			double v = -400;
 			for (BoardState successor: board.getMoves()) {
-				double successorUtil = minValuePlay(successor, turn+1, alpha, beta).get(0).getPathScore();
-				
+				BoardPath successorPath = minValuePlay(successor, turn+1, alpha, beta).get(0);
 				//v <- Max(v,minValue(s,alpha,beta)
-				if (successorUtil > v) {//new v to beat, clear list
-					v = successorUtil;
+				if (successorPath.pathScore > v) {//new v to beat, clear list
+					v = successorPath.pathScore;
 					res.clear();
-					res.add(new BoardPath(successor, successorUtil, turn));
-				}else if (successorUtil == v) {//tie, add successor to list for randomizer
-					res.add(new BoardPath(successor, successorUtil, turn));
+					res.add(new BoardPath(successor, successorPath.pathScore, successorPath.pathLength));
+				}else if (successorPath.pathScore == v) {//tie, add successor to list for randomizer
+					res.add(new BoardPath(successor, successorPath.pathScore, successorPath.pathLength));
 				}
 				
 				//if v >= beta return v
@@ -137,15 +136,15 @@ public class AlphaBetaAI {
 		else {
 			double v = 400;
 			for (BoardState successor: board.getMoves()) {
-				double successorUtil = maxValuePlay(successor, turn+1, alpha, beta).get(0).getPathScore();
+				BoardPath successorPath = maxValuePlay(successor, turn+1, alpha, beta).get(0);
 				
 				//v <- Max(v,minValue(s,alpha,beta)
-				if (successorUtil < v) {//new v to beat, clear list
-					v = successorUtil;
+				if (successorPath.pathScore < v) {//new v to beat, clear list
+					v = successorPath.pathScore;
 					res.clear();
-					res.add(new BoardPath(successor, successorUtil, turn));
-				}else if (successorUtil == v) {//tie, add successor to list for randomizer
-					res.add(new BoardPath(successor, successorUtil, turn));
+					res.add(new BoardPath(successor, successorPath.pathScore, successorPath.pathLength));
+				}else if (successorPath.pathScore == v) {//tie, add successor to list for randomizer
+					res.add(new BoardPath(successor, successorPath.pathScore, successorPath.pathLength));
 				}
 				
 				//if v <= alpha return v

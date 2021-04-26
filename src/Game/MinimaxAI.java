@@ -93,13 +93,13 @@ public class MinimaxAI {
 		else {
 			double v = -400;
 			for (BoardState successor: board.getMoves()) {
-				double successorUtil = minValuePlay(successor, turn+1).get(0).getPathScore();
-				if (successorUtil > v) {//new v to beat, clear list
-					v = successorUtil;
+				BoardPath successorPath = minValuePlay(successor, turn+1).get(0);
+				if (successorPath.pathScore > v) {//new v to beat, clear list
+					v = successorPath.pathScore;
 					res.clear();
-					res.add(new BoardPath(successor, successorUtil, turn));
-				}else if (successorUtil == v) {//tie, add successor to list for randomizer
-					res.add(new BoardPath(successor, successorUtil, turn));
+					res.add(new BoardPath(successor, successorPath.pathScore, successorPath.pathLength));
+				}else if (successorPath.pathScore == v) {//tie, add successor to list for randomizer
+					res.add(new BoardPath(successor, successorPath.pathScore, successorPath.pathLength));
 				}
 			}
 		}
@@ -126,13 +126,13 @@ public class MinimaxAI {
 		else {
 			double v = 400;
 			for (BoardState successor: board.getMoves()) {
-				double successorUtil = maxValuePlay(successor, turn+1).get(0).getPathScore();
-				if (successorUtil < v) { //new v to beat, clear list
-					v = successorUtil;
+				BoardPath successorPath = maxValuePlay(successor, turn+1).get(0);
+				if (successorPath.pathScore < v) { //new v to beat, clear list
+					v = successorPath.pathScore;
 					res.clear();
-					res.add(new BoardPath(successor, successorUtil, turn));
-				}else if (successorUtil == v) { //tie, add successor to list for randomizer
-					res.add(new BoardPath(successor, successorUtil, turn));
+					res.add(new BoardPath(successor, successorPath.pathScore, successorPath.pathLength));
+				}else if (successorPath.pathScore == v) { //tie, add successor to list for randomizer
+					res.add(new BoardPath(successor, successorPath.pathScore, successorPath.pathLength));
 				}
 			}
 		}
