@@ -2,7 +2,7 @@ package Game;
 
 public class Utility {
 
-	//Regular pieces worth 1 point, Kings worth 2 points, Safe Pieces worth 1/2 point
+	//Regular pieces worth 2 points, Kings worth 4 points, Safe Pieces worth an extra point
 		public static int blackUtility(BoardState board) {
 			int points = (board.blackList().size()*2) + (board.blackKings().size()*4) 
 					+ board.safeBlack().size() + board.blackGuard().size();
@@ -36,7 +36,6 @@ public class Utility {
 				return 200;
 			}
 			double res = (double) whiteUtility(board)/blackUtility(board);
-			//System.out.println(res);
 			return res;
 		}
 }
